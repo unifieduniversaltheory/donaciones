@@ -2,37 +2,49 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Test Donaciones – MetaMask</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.min.js"></script>
+  <title>Test conexión Web3</title>
 </head>
 <body>
   <h1>Test conexión Web3</h1>
   <p>Si MetaMask se abre al hacer clic en el botón, el sitio ya es Web3.</p>
 
-  <button id="connectBtn">Conectar Wallet</button>
-  <p>Dirección conectada: <span id="addr">—</span></p>
+  <button id="connectButton">Conectar Wallet</button>
+
+  <p>Dirección conectada: <span id="account">—</span></p>
 
   <script>
-    document.getElementById("connectBtn").onclick = async () => {
-      if (typeof window.ethereum === "undefined") {
-        alert("No se detectó MetaMask.");
+    const connectButton = document.getElementById('connectButton');
+    const accountSpan = document.getElementById('account');
+
+    async function connectWallet() {
+      // 1. Verificar que MetaMask / provider exista
+      if (typeof window.ethereum === 'undefined') {
+        alert('MetaMask no está instalado o el navegador no lo detecta.');
         return;
       }
 
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-
       try {
-        await provider.send("eth_requestAccounts", []);
-        const signer = provider.getSigner();
-        const addr = await signer.getAddress();
-        document.getElementById("addr").textContent = addr;
-        alert("Conectado con éxito: " + addr);
-      } catch (e) {
-        console.error(e);
-        alert("El usuario canceló o hubo un error.");
+        // 2. Pedir conexión a la wallet
+        const accounts = await window.ethereum.request({
+          method: 'eth_requestAccounts'
+        });
+
+        // 3. Mostrar la primera cuenta conectada
+        const account = accounts[0];
+        accountSpan.textContent = account;
+      } catch (error) {
+        if (error.code === 4001) {
+          // Usuario rechazó la conexión
+          alert('Has rechazado la conexión en MetaMask.');
+        } else {
+          console.error(error);
+          alert('Ocurrió un error al conectar con MetaMask. Revisa la consola.');
+        }
       }
-    };
+    }
+
+    // Asignar el evento al botón
+    connectButton.addEventListener('click', connectWallet);
   </script>
 </body>
 </html>
