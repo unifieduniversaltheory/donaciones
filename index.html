@@ -1,82 +1,82 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Donaciones – Proyecto de Investigación</title>
-  <link rel="icon" type="image/png" href="favicon.png" />
-  <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.min.js"></script>
-  <style>
-    body {
-      font-family: 'Segoe UI', Arial, sans-serif;
-      background: #f5f5f7;
-      color: #222;
-      margin: 0;
-      padding: 0;
-    }
-    header {
-      background: #111827;
-      color: #fff;
-      padding: 35px;
-      text-align: center;
-    }
-    header h1 { margin: 0; font-size: 28px; }
-    .container {
-      max-width: 820px;
-      margin: 40px auto;
-      background: #fff;
-      padding: 40px;
-      border-radius: 14px;
-      box-shadow: 0 0 25px rgba(0,0,0,0.08);
-    }
-    h2, h3 { margin-top: 0; }
-    input, select, textarea {
-      width: 100%;
-      padding: 12px;
-      margin: 8px 0 15px 0;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-      font-size: 15px;
-    }
-    button {
-      width: 100%;
-      padding: 14px;
-      margin-top: 10px;
-      border: none;
-      border-radius: 8px;
-      background: #2563eb;
-      color: #fff;
-      font-size: 17px;
-      cursor: pointer;
-      font-weight: 600;
-    }
-    button:hover { background: #1e40af; }
-    .lang-switch {
-      text-align: right;
-      margin-bottom: 10px;
-    }
-    .note {
-      font-size: 14px;
-      color: #444;
-      margin-top: 15px;
-    }
-    .success {
-      background: #d1fae5;
-      color: #065f46;
-      padding: 10px;
-      border-radius: 6px;
-      margin-top: 10px;
-      display: none;
-    }
-    .error {
-      background: #fee2e2;
-      color: #991b1b;
-      padding: 10px;
-      border-radius: 6px;
-      margin-top: 10px;
-      display: none;
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Donaciones – Proyecto de Investigación</title>
+<link rel="icon" type="image/png" href="favicon.png" />
+<script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.min.js"></script>
+<style>
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f5f5f7;
+    color: #222;
+    margin: 0;
+    padding: 0;
+  }
+  header {
+    background: #111827;
+    color: #fff;
+    padding: 35px;
+    text-align: center;
+  }
+  header h1 { margin: 0; font-size: 28px; }
+  .container {
+    max-width: 820px;
+    margin: 40px auto;
+    background: #fff;
+    padding: 40px;
+    border-radius: 14px;
+    box-shadow: 0 0 25px rgba(0,0,0,0.08);
+  }
+  h2, h3 { margin-top: 0; }
+  input, select, textarea {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0 15px 0;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+  }
+  button {
+    width: 100%;
+    padding: 14px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 8px;
+    background: #2563eb;
+    color: #fff;
+    font-size: 17px;
+    cursor: pointer;
+    font-weight: 600;
+  }
+  button:hover { background: #1e40af; }
+  .lang-switch {
+    text-align: right;
+    margin-bottom: 10px;
+  }
+  .note {
+    font-size: 14px;
+    color: #444;
+    margin-top: 15px;
+  }
+  .success {
+    background: #d1fae5;
+    color: #065f46;
+    padding: 10px;
+    border-radius: 6px;
+    margin-top: 10px;
+    display: none;
+  }
+  .error {
+    background: #fee2e2;
+    color: #991b1b;
+    padding: 10px;
+    border-radius: 6px;
+    margin-top: 10px;
+    display: none;
+  }
+</style>
 </head>
 <body>
 <header>
@@ -84,388 +84,383 @@
 </header>
 <div class="container">
 
-  <div class="lang-switch">
+<div class="lang-switch">
     <select id="language">
       <option value="es">Español</option>
       <option value="en">English</option>
     </select>
-  </div>
+</div>
 
-  <p id="intro">
-    Este formulario permite realizar una <strong>donación voluntaria</strong> para apoyar este proyecto científico independiente.
-    <br><br>
-    <strong>IMPORTANTE:</strong> Toda contribución es una donación pura y desinteresada. No existe, ni existirá, retorno económico,
-    participación en beneficios, intereses, dividendos, promesa de revalorización, ni ningún tipo de rendimiento financiero.
-    Esta página <strong>no</strong> ofrece ni representa un instrumento de inversión.
-  </p>
+<p id="intro">
+  Este formulario permite realizar una <strong>donación voluntaria</strong> para apoyar este proyecto científico independiente.
+  <br><br>
+  <strong>IMPORTANTE:</strong> Toda contribución es una donación pura y desinteresada. No existe, ni existirá, retorno económico,
+  participación en beneficios, intereses, dividendos, promesa de revalorización, ni ningún tipo de rendimiento financiero.
+  Esta página <strong>no</strong> ofrece ni representa un instrumento de inversión.
+</p>
 
-  <p class="note" id="noReturnNote">
-    Al donar, declaras que comprendes y aceptas que:
-    <br>• No hay devolución del dinero donado.
-    <br>• No se generan derechos económicos de ningún tipo.
-    <br>• El token UUT que recibes es un <strong>reconocimiento simbólico</strong> en la blockchain, sin valor financiero garantizado.
-  </p>
+<p class="note" id="noReturnNote">
+  Al donar, declaras que comprendes y aceptas que:
+  <br>• No hay devolución del dinero donado.
+  <br>• No se generan derechos económicos de ningún tipo.
+  <br>• El token UUT que recibes es un <strong>reconocimiento simbólico</strong> en la blockchain, sin valor financiero garantizado.
+</p>
 
-  <p id="data-note">
-    Si lo deseas, puedes dejar tus datos para ser mencionado en la lista oficial de colaboradores del proyecto.
-  </p>
+<p id="data-note">
+  Si lo deseas, puedes dejar tus datos para ser mencionado en la lista oficial de colaboradores del proyecto.
+</p>
 
-  <button id="connectBtn">Conectar Wallet</button>
-  <div id="status" class="success"></div>
-  <div id="errorMsg" class="error"></div>
+<button id="connectBtn">Conectar Wallet</button>
+<div id="status" class="success"></div>
+<div id="errorMsg" class="error"></div>
 
-  <h3 id="yourAddressLabel">Tu dirección:</h3>
-  <div id="userAddress">—</div>
+<h3 id="yourAddressLabel">Tu dirección:</h3>
+<div id="userAddress">—</div>
 
-  <h3 id="yourUSDTLabel">Saldo USDT:</h3>
-  <div id="userUSDT">—</div>
+<h3 id="yourUSDTLabel">Saldo USDT:</h3>
+<div id="userUSDT">—</div>
 
-  <h3 id="yourSYMLabel">Saldo Token UUT (simbólico):</h3>
-  <div id="userSYM">—</div>
+<h3 id="yourSYMLabel">Saldo Token UUT (simbólico):</h3>
+<div id="userSYM">—</div>
 
-  <hr>
-  <h3 id="donateTitle">Realizar donación</h3>
+<hr>
+<h3 id="donateTitle">Realizar donación</h3>
 
-  <p class="note" id="donateWarning">
-    Antes de donar, asegúrate de estar conectado a la red <strong>BNB Smart Chain (BSC)</strong> en MetaMask y de comprender que esta operación es una donación sin retorno económico.
-  </p>
+<p class="note" id="donateWarning">
+  Antes de donar, asegúrate de estar conectado a la red <strong>BNB Smart Chain (BSC)</strong> en MetaMask y de comprender que esta operación es una donación sin retorno económico.
+</p>
 
-  <input type="number" id="donationAmount" placeholder="Monto en USDT (ej: 1.5)" />
-  <button id="approveBtn">Aprobar USDT</button>
-  <button id="donateBtn">Donar</button>
+<input type="number" id="donationAmount" placeholder="Monto en USDT (ej: 1.5)" />
+<button id="approveBtn">Aprobar USDT</button>
+<button id="donateBtn">Donar</button>
 
-  <p class="note" id="rateNote">
-    Recibirás <strong>1 token UUT simbólico por cada 1 USDT donado</strong>.
-    Este token es únicamente un reconocimiento simbólico en la red y <strong>no representa ni garantiza valor financiero, derechos sobre el proyecto ni participación en beneficios</strong>.
-  </p>
+<p class="note" id="rateNote">
+  Recibirás <strong>1 token UUT simbólico por cada 1 USDT donado</strong>.
+  Este token es únicamente un reconocimiento simbólico en la red y <strong>no representa ni garantiza valor financiero, derechos sobre el proyecto ni participación en beneficios</strong>.
+</p>
 
-  <hr>
-  <h3 id="collabTitle">Colaboradores</h3>
-  <p id="collabText">Si deseas ser incluido en la lista pública de colaboradores, ingresa tus datos. Tú eliges el nivel de privacidad.</p>
+<hr>
+<h3 id="collabTitle">Colaboradores</h3>
+<p id="collabText">Si deseas ser incluido en la lista pública de colaboradores, ingresa tus datos. Tú eliges el nivel de privacidad.</p>
 
-  <label><input type="radio" name="privacy" value="public_full" checked> Público (nombre y país)</label><br>
-  <label><input type="radio" name="privacy" value="public_name"> Público (solo nombre)</label><br>
-  <label><input type="radio" name="privacy" value="private"> Privado (no mostrar)</label><br><br>
+<label><input type="radio" name="privacy" value="public_full" checked> Público (nombre y país)</label><br>
+<label><input type="radio" name="privacy" value="public_name"> Público (solo nombre)</label><br>
+<label><input type="radio" name="privacy" value="private"> Privado (no mostrar)</label><br><br>
 
-  <input type="text" id="collabName" placeholder="Tu nombre" />
-  <input type="text" id="collabCountry" placeholder="País (opcional)" />
-  <input type="text" id="collabCity" placeholder="Ciudad (opcional)" />
-  <input type="number" id="collabAge" placeholder="Edad (opcional)" />
-  <textarea id="collabComment" placeholder="Comentario (opcional)" style="width:100%;height:80px;margin-top:10px;"></textarea>
-  <input type="email" id="collabEmail" placeholder="Correo (solo si deseas recibir una respuesta)" />
-  <button id="sendCollab">Enviar datos</button>
+<input type="text" id="collabName" placeholder="Tu nombre" />
+<input type="text" id="collabCountry" placeholder="País (opcional)" />
+<input type="text" id="collabCity" placeholder="Ciudad (opcional)" />
+<input type="number" id="collabAge" placeholder="Edad (opcional)" />
+<textarea id="collabComment" placeholder="Comentario (opcional)" style="width:100%;height:80px;margin-top:10px;"></textarea>
+<input type="email" id="collabEmail" placeholder="Correo (solo si deseas recibir una respuesta)" />
+<button id="sendCollab">Enviar datos</button>
 
-  <hr>
-  <h3 id="howToImportTitle">¿Cómo ver tu token UUT?</h3>
-  <p id="howToImportText">
-    Si no ves tus tokens luego de donar, abre MetaMask → "Import Tokens" → pega la siguiente dirección:<br>
-    <strong>0xbEf018e8d5c4b89F84023ad735aA261bb10bD2a3</strong><br>
-    El token aparecerá automáticamente con el símbolo <strong>UUT</strong>.
-  </p>
+<hr>
+<h3 id="howToImportTitle">¿Cómo ver tu token UUT?</h3>
+<p id="howToImportText">
+  Si no ves tus tokens luego de donar, abre MetaMask → "Import Tokens" → pega la siguiente dirección:<br>
+  <strong>0xbEf018e8d5c4b89F84023ad735aA261bb10bD2a3</strong><br>
+  El token aparecerá automáticamente con el símbolo <strong>UUT</strong>.
+</p>
 
-  <h3 id="transparencyTitle">Transparencia y declaración de no lucro</h3>
-  <p id="transparencyText">
-    Este proyecto se sostiene íntegramente mediante donaciones. Ningún aporte genera retorno, dividendos ni beneficios financieros.
-    Todos los fondos se destinan exclusivamente a investigación científica, mantenimiento de infraestructura, insumos, capacitación,
-    divulgación y sostenimiento operativo. Toda la gestión financiera es transparente y puede ser auditada en la blockchain.
-  </p>
+<h3 id="transparencyTitle">Transparencia y declaración de no lucro</h3>
+<p id="transparencyText">
+  Este proyecto se sostiene íntegramente mediante donaciones. Ningún aporte genera retorno, dividendos ni beneficios financieros.
+  Todos los fondos se destinan exclusivamente a investigación científica, mantenimiento de infraestructura, insumos, capacitación,
+  divulgación y sostenimiento operativo. Toda la gestión financiera es transparente y puede ser auditada en la blockchain.
+</p>
 
-  <hr>
-  <h3 id="publicListTitle">Colaboradores Públicos</h3>
-  <div id="publicCollabList">Cargando...</div>
+<hr>
+<h3 id="publicListTitle">Colaboradores Públicos</h3>
+<div id="publicCollabList">Cargando...</div>
 </div>
 
 <script>
-  // URL de tu Google Apps Script
-  const GOOGLE_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbwMvNpT-SGBzVdf0n1Bd0m6jlIcXWaTYxSTAhwH7wDfG319Gqr8OOziBa-xRgOXh1QV/exec";
+// URL de tu Google Apps Script
+const GOOGLE_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbwMvNpT-SGBzVdf0n1Bd0m6jlIcXWaTYxSTAhwH7wDfG319Gqr8OOziBa-xRgOXh1QV/exec";
 
-  // ========================= CONFIG ============================
-  const USDT_ADDRESS      = "0x55d398326f99059fF775485246999027B3197955"; // USDT en BNB Smart Chain
-  const SYM_ADDRESS       = "0xbEf018e8d5c4b89F84023ad735aA261bb10bD2a3"; // Token UUT
-  const DONATION_ADDRESS  = "0x524C8B19d28d4C24E73cd2126E3C6b87A40EdD0f"; // Contrato de donaciones
+// ========================= CONFIG ============================
+const USDT_ADDRESS      = "0x55d398326f99059fF775485246999027B3197955"; // USDT en BNB Smart Chain
+const SYM_ADDRESS       = "0xbEf018e8d5c4b89F84023ad735aA261bb10bD2a3"; // Token UUT
+const DONATION_ADDRESS  = "0x524C8B19d28d4C24E73cd2126E3C6b87A40EdD0f"; // Contrato de donaciones
+const BSC_CHAIN_ID_HEX  = "0x38"; // 56 en decimal
 
-  const ERC20_ABI = [
-    "function approve(address spender, uint256 amount) external returns (bool)",
-    "function balanceOf(address) external view returns (uint256)",
-    "function decimals() external view returns (uint8)"
-  ];
+const ERC20_ABI = [
+  "function approve(address spender, uint256 amount) external returns (bool)",
+  "function balanceOf(address) external view returns (uint256)",
+  "function decimals() external view returns (uint8)"
+];
 
-  const DONATION_ABI = [
-    "function donate(uint256 amountUSDT) external"
-  ];
+const DONATION_ABI = [
+  "function donate(uint256 amountUSDT) external"
+];
 
-  let provider, signer, userAddress;
+let provider, signer, userAddress;
 
-  // Helpers de UI
-  const statusBox = document.getElementById("status");
-  const errorBox  = document.getElementById("errorMsg");
+// Helpers de UI
+const statusBox = document.getElementById("status");
+const errorBox  = document.getElementById("errorMsg");
 
-  function showStatus(msg) {
-    statusBox.innerText = msg;
-    statusBox.style.display = "block";
-    errorBox.style.display = "none";
+function showStatus(msg) {
+  statusBox.innerText = msg;
+  statusBox.style.display = "block";
+  errorBox.style.display = "none";
+}
+
+function showError(msg) {
+  errorBox.innerText = msg;
+  errorBox.style.display = "block";
+  statusBox.style.display = "none";
+}
+
+// ====================== MULTI-LANGUAGE ========================
+const texts = {
+  es: {
+    title: "Donaciones – Proyecto de Investigación",
+    intro: "Este formulario permite realizar una <strong>donación voluntaria</strong> para apoyar este proyecto científico independiente.<br><br><strong>IMPORTANTE:</strong> Toda contribución es una donación pura y desinteresada. No existe, ni existirá, retorno económico, participación en beneficios, intereses, dividendos, promesa de revalorización, ni ningún tipo de rendimiento financiero. Esta página <strong>no</strong> ofrece ni representa un instrumento de inversión.",
+    dataNote: "Si lo deseas, puedes dejar tus datos para ser mencionado en la lista oficial de colaboradores del proyecto.",
+    yourAddressLabel: "Tu dirección:",
+    yourUSDTLabel: "Saldo USDT:",
+    yourSYMLabel: "Saldo Token UUT (simbólico):",
+    donateTitle: "Realizar donación",
+    rateNote: "Recibirás 1 token UUT simbólico por cada 1 USDT donado. El token es únicamente un reconocimiento en la blockchain y no representa ni garantiza valor financiero, derechos sobre el proyecto ni participación en beneficios.",
+    connectBtn: "Conectar Wallet",
+    approveBtn: "Aprobar USDT",
+    donateBtn: "Donar",
+    collabSent: "Datos enviados correctamente.",
+    donateWarning: "Antes de donar, asegúrate de estar conectado a la red BNB Smart Chain (BSC) en MetaMask y de comprender que esta operación es una donación sin retorno económico."
+  },
+  en: {
+    title: "Donations – Research Project",
+    intro: "This form allows you to make a <strong>voluntary donation</strong> to support this independent scientific project.<br><br><strong>IMPORTANT:</strong> Every contribution is a pure and selfless donation. There is and will be no economic return, profit sharing, interest, dividends, promise of appreciation, or any kind of financial yield. This page does <strong>not</strong> offer or represent an investment instrument.",
+    dataNote: "If you wish, you may leave your information to be mentioned in the official list of project contributors.",
+    yourAddressLabel: "Your address:",
+    yourUSDTLabel: "USDT Balance:",
+    yourSYMLabel: "UUT Token Balance (symbolic):",
+    donateTitle: "Make a Donation",
+    rateNote: "You will receive 1 symbolic UUT token for each 1 USDT donated. This token is only a recognition on the blockchain and does not represent or guarantee financial value, rights over the project, or profit participation.",
+    connectBtn: "Connect Wallet",
+    approveBtn: "Approve USDT",
+    donateBtn: "Donate",
+    collabSent: "Data submitted successfully.",
+    donateWarning: "Before donating, make sure you are connected to the BNB Smart Chain (BSC) network in MetaMask and that you understand this operation is a donation with no financial return."
   }
+};
 
-  function showError(msg) {
-    errorBox.innerText = msg;
-    errorBox.style.display = "block";
-    statusBox.style.display = "none";
-  }
+document.getElementById("language").onchange = applyLanguage;
+applyLanguage();
 
-  // ====================== MULTI-LANGUAGE ========================
-  const texts = {
-    es: {
-      title: "Donaciones – Proyecto de Investigación",
-      intro: "Este formulario permite realizar una <strong>donación voluntaria</strong> para apoyar este proyecto científico independiente.<br><br><strong>IMPORTANTE:</strong> Toda contribución es una donación pura y desinteresada. No existe, ni existirá, retorno económico, participación en beneficios, intereses, dividendos, promesa de revalorización, ni ningún tipo de rendimiento financiero. Esta página <strong>no</strong> ofrece ni representa un instrumento de inversión.",
-      dataNote: "Si lo deseas, puedes dejar tus datos para ser mencionado en la lista oficial de colaboradores del proyecto.",
-      yourAddressLabel: "Tu dirección:",
-      yourUSDTLabel: "Saldo USDT:",
-      yourSYMLabel: "Saldo Token UUT (simbólico):",
-      donateTitle: "Realizar donación",
-      rateNote: "Recibirás 1 token UUT simbólico por cada 1 USDT donado. El token es únicamente un reconocimiento en la blockchain y no representa ni garantiza valor financiero, derechos sobre el proyecto ni participación en beneficios.",
-      connectBtn: "Conectar Wallet",
-      approveBtn: "Aprobar USDT",
-      donateBtn: "Donar",
-      collabSent: "Datos enviados correctamente.",
-      donateWarning: "Antes de donar, asegúrate de estar conectado a la red BNB Smart Chain (BSC) en MetaMask y de comprender que esta operación es una donación sin retorno económico."
-    },
-    en: {
-      title: "Donations – Research Project",
-      intro: "This form allows you to make a <strong>voluntary donation</strong> to support this independent scientific project.<br><br><strong>IMPORTANT:</strong> Every contribution is a pure and selfless donation. There is and will be no economic return, profit sharing, interest, dividends, promise of appreciation, or any kind of financial yield. This page does <strong>not</strong> offer or represent an investment instrument.",
-      dataNote: "If you wish, you may leave your information to be mentioned in the official list of project contributors.",
-      yourAddressLabel: "Your address:",
-      yourUSDTLabel: "USDT Balance:",
-      yourSYMLabel: "UUT Token Balance (symbolic):",
-      donateTitle: "Make a Donation",
-      rateNote: "You will receive 1 symbolic UUT token for each 1 USDT donated. This token is only a recognition on the blockchain and does not represent or guarantee financial value, rights over the project, or profit participation.",
-      connectBtn: "Connect Wallet",
-      approveBtn: "Approve USDT",
-      donateBtn: "Donate",
-      collabSent: "Data submitted successfully.",
-      donateWarning: "Before donating, make sure you are connected to the BNB Smart Chain (BSC) network in MetaMask and that you understand this operation is a donation with no financial return."
-    }
-  };
+function applyLanguage() {
+  const lang = document.getElementById("language").value;
+  const t = texts[lang];
+  document.getElementById("title").innerText = t.title;
+  document.getElementById("intro").innerHTML = t.intro;
+  document.getElementById("data-note").innerText = t.dataNote;
+  document.getElementById("yourAddressLabel").innerText = t.yourAddressLabel;
+  document.getElementById("yourUSDTLabel").innerText = t.yourUSDTLabel;
+  document.getElementById("yourSYMLabel").innerText = t.yourSYMLabel;
+  document.getElementById("donateTitle").innerText = t.donateTitle;
+  document.getElementById("rateNote").innerText = t.rateNote;
+  document.getElementById("connectBtn").innerText = t.connectBtn;
+  document.getElementById("approveBtn").innerText = t.approveBtn;
+  document.getElementById("donateBtn").innerText = t.donateBtn;
+  document.getElementById("donateWarning").innerText = t.donateWarning;
+}
 
-  document.getElementById("language").onchange = applyLanguage;
-  applyLanguage();
-
-  function applyLanguage() {
-    const lang = document.getElementById("language").value;
-    const t = texts[lang];
-    document.getElementById("title").innerText = t.title;
-    document.getElementById("intro").innerHTML = t.intro;
-    document.getElementById("data-note").innerText = t.dataNote;
-    document.getElementById("yourAddressLabel").innerText = t.yourAddressLabel;
-    document.getElementById("yourUSDTLabel").innerText = t.yourUSDTLabel;
-    document.getElementById("yourSYMLabel").innerText = t.yourSYMLabel;
-    document.getElementById("donateTitle").innerText = t.donateTitle;
-    document.getElementById("rateNote").innerText = t.rateNote;
-    document.getElementById("connectBtn").innerText = t.connectBtn;
-    document.getElementById("approveBtn").innerText = t.approveBtn;
-    document.getElementById("donateBtn").innerText = t.donateBtn;
-    document.getElementById("donateWarning").innerText = t.donateWarning;
-  }
-
-  // ====================== CONNECT WALLET (MISMO FORMATO QUE TU TEST) ========================
-  const connectButton = document.getElementById('connectBtn');
-  const accountSpan  = document.getElementById('userAddress');
-
-  async function connectWallet() {
-    // 1. Verificar MetaMask
-    if (typeof window.ethereum === 'undefined') {
-      showError('MetaMask no está instalado o el navegador no lo detecta.');
+// ====================== CONNECT WALLET ========================
+document.getElementById("connectBtn").onclick = async () => {
+  try {
+    if (typeof window.ethereum === "undefined") {
+      showError("No se detectó MetaMask. Instálala o habilítala en este navegador.");
       return;
     }
 
-    try {
-      // 2. Pedir conexión a la wallet (igual que tu test)
-      const accounts = await window.ethereum.request({
-        method: 'eth_requestAccounts'
-      });
+    provider = new ethers.providers.Web3Provider(window.ethereum);
 
-      // 3. Tomar la primera cuenta
-      const account = accounts[0];
-      userAddress = account;
-      accountSpan.textContent = account;
+    // Solicitar conexión
+    await provider.send("eth_requestAccounts", []);
+    signer = provider.getSigner();
+    userAddress = await signer.getAddress();
 
-      // 4. Crear provider y signer de ethers a partir de la misma conexión
-      provider = new ethers.providers.Web3Provider(window.ethereum);
-      signer   = provider.getSigner();
+    document.getElementById("userAddress").innerText = userAddress;
 
-      showStatus('Wallet conectada correctamente.');
-      actualizarBalances();
-    } catch (error) {
-      if (error.code === 4001) {
-        showError('Has rechazado la conexión en MetaMask.');
-      } else {
-        console.error(error);
-        showError('Ocurrió un error al conectar con MetaMask. Revisa la consola.');
-      }
+    // Comprobar red
+    const network = await provider.getNetwork();
+    if (network.chainId !== 56) {
+      showError("Atención: esta dApp está diseñada para la red BNB Smart Chain (BSC – chainId 56). Cambia la red en MetaMask.");
+    } else {
+      showStatus("Wallet conectada correctamente en BNB Smart Chain (BSC).");
     }
+
+    actualizarBalances();
+  } catch (err) {
+    console.error(err);
+    showError("No se pudo conectar la wallet. Revisa MetaMask y vuelve a intentarlo.");
   }
+};
 
-  connectButton.addEventListener('click', connectWallet);
+// ====================== BALANCES ===============================
+async function actualizarBalances() {
+  try {
+    if (!provider || !userAddress) return;
 
-  // ====================== BALANCES ===============================
-  async function actualizarBalances() {
-    try {
-      if (!provider || !userAddress) return;
+    const usdt = new ethers.Contract(USDT_ADDRESS, ERC20_ABI, provider);
+    const sym  = new ethers.Contract(SYM_ADDRESS, ERC20_ABI, provider);
 
-      const usdt = new ethers.Contract(USDT_ADDRESS, ERC20_ABI, provider);
-      const sym  = new ethers.Contract(SYM_ADDRESS, ERC20_ABI, provider);
+    const usdtDec = await usdt.decimals();
+    const symDec  = await sym.decimals();
 
-      const usdtDec = await usdt.decimals();
-      const symDec  = await sym.decimals();
+    const balUSDT = await usdt.balanceOf(userAddress);
+    const balSYM  = await sym.balanceOf(userAddress);
 
-      const balUSDT = await usdt.balanceOf(userAddress);
-      const balSYM  = await sym.balanceOf(userAddress);
+    document.getElementById("userUSDT").innerText =
+      ethers.utils.formatUnits(balUSDT, usdtDec) + " USDT";
 
-      document.getElementById("userUSDT").innerText =
-        ethers.utils.formatUnits(balUSDT, usdtDec) + " USDT";
-
-      document.getElementById("userSYM").innerText =
-        ethers.utils.formatUnits(balSYM, symDec) + " UUT";
-    } catch (err) {
-      console.error(err);
-      showError("No se pudieron actualizar los saldos. Verifica la red y vuelve a intentarlo.");
-    }
+    document.getElementById("userSYM").innerText =
+      ethers.utils.formatUnits(balSYM, symDec) + " UUT";
+  } catch (err) {
+    console.error(err);
+    showError("No se pudieron actualizar los saldos. Verifica la red y vuelve a intentarlo.");
   }
+}
 
-  // ====================== APPROVE ===============================
-  document.getElementById("approveBtn").onclick = async () => {
-    try {
-      if (!signer || !userAddress) {
-        showError("Primero conecta tu wallet.");
-        return;
-      }
-
-      const amountInput = document.getElementById("donationAmount").value;
-      if (!amountInput || amountInput <= 0) {
-        showError("Monto inválido. Ingresa un valor mayor a 0.");
-        return;
-      }
-
-      const usdt = new ethers.Contract(USDT_ADDRESS, ERC20_ABI, signer);
-      const decimals = await usdt.decimals();
-      const amountWei = ethers.utils.parseUnits(amountInput, decimals);
-
-      showStatus("Enviando transacción de aprobación...");
-      const tx = await usdt.approve(DONATION_ADDRESS, amountWei);
-      await tx.wait();
-      showStatus("Aprobación de USDT confirmada en la blockchain.");
-    } catch (err) {
-      console.error(err);
-      showError("Error al aprobar USDT. Revisa MetaMask (red, saldo, gas) y vuelve a intentar.");
+// ====================== APPROVE ===============================
+document.getElementById("approveBtn").onclick = async () => {
+  try {
+    if (!signer || !userAddress) {
+      showError("Primero conecta tu wallet.");
+      return;
     }
-  };
 
-  // ====================== DONATE ===============================
-  document.getElementById("donateBtn").onclick = async () => {
-    try {
-      if (!signer || !userAddress) {
-        showError("Primero conecta tu wallet.");
-        return;
-      }
-
-      const amountInput = document.getElementById("donationAmount").value;
-      if (!amountInput || amountInput <= 0) {
-        showError("Monto inválido. Ingresa un valor mayor a 0.");
-        return;
-      }
-
-      // Aviso explícito
-      const confirmar = confirm(
-        "Esta operación es una donación sin retorno económico. ¿Deseas continuar?"
-      );
-      if (!confirmar) return;
-
-      const usdt = new ethers.Contract(USDT_ADDRESS, ERC20_ABI, signer);
-      const decimals = await usdt.decimals();
-      const amountWei = ethers.utils.parseUnits(amountInput, decimals);
-
-      const donation = new ethers.Contract(DONATION_ADDRESS, DONATION_ABI, signer);
-      showStatus("Enviando donación...");
-      const tx = await donation.donate(amountWei);
-      await tx.wait();
-
-      showStatus("Donación completada. ¡Gracias por tu apoyo!");
-      actualizarBalances();
-    } catch (err) {
-      console.error(err);
-      showError("Error al enviar la donación. Revisa MetaMask (aprobación previa, red, saldo, gas).");
+    const amountInput = document.getElementById("donationAmount").value;
+    if (!amountInput || amountInput <= 0) {
+      showError("Monto inválido. Ingresa un valor mayor a 0.");
+      return;
     }
-  };
 
-  // ====================== SEND COLLAB DATA ======================
-  document.getElementById("sendCollab").onclick = async () => {
-    try {
-      const privacy = document.querySelector("input[name='privacy']:checked").value;
+    const usdt = new ethers.Contract(USDT_ADDRESS, ERC20_ABI, signer);
+    const decimals = await usdt.decimals();
+    const amountWei = ethers.utils.parseUnits(amountInput, decimals);
 
-      const payload = {
-        wallet: userAddress || "",
-        nombre: document.getElementById("collabName").value,
-        email: document.getElementById("collabEmail").value,
-        privacidad: privacy,
-        pais: document.getElementById("collabCountry").value,
-        ciudad: document.getElementById("collabCity").value,
-        edad: document.getElementById("collabAge").value,
-        comentario: document.getElementById("collabComment").value
-      };
-
-      await fetch(GOOGLE_WEBAPP_URL, {
-        method: "POST",
-        mode: "no-cors",
-        body: JSON.stringify(payload)
-      });
-
-      showStatus("Datos enviados. ¡Gracias por colaborar!");
-    } catch (err) {
-      console.error(err);
-      showError("No se pudieron enviar tus datos. Inténtalo de nuevo más tarde.");
-    }
-  };
-
-  // ================= CARGAR COLABORADORES PÚBLICOS ==============
-  async function cargarColaboradoresPublicos() {
-    const contenedor = document.getElementById("publicCollabList");
-    contenedor.textContent = "Cargando...";
-
-    try {
-      const res = await fetch(GOOGLE_WEBAPP_URL); // GET -> doGet
-      const data = await res.json(); // se espera un array de { nombre, pais, modo }
-
-      contenedor.innerHTML = "";
-
-      if (!data.length) {
-        contenedor.textContent = "Todavía no hay colaboradores públicos.";
-        return;
-      }
-
-      data.forEach(c => {
-        const card = document.createElement("div");
-        card.className = "collab-card";
-        card.style.padding = "8px 0";
-
-        const line = document.createElement("div");
-
-        let texto = c.nombre || "";
-        if (c.modo === "public_full" && c.pais) {
-          texto += " (" + c.pais + ")";
-        }
-
-        line.textContent = texto; // protección contra XSS
-        card.appendChild(line);
-        contenedor.appendChild(card);
-      });
-
-    } catch (err) {
-      contenedor.textContent = "No se pudo cargar la lista de colaboradores.";
-      console.error(err);
-    }
+    showStatus("Enviando transacción de aprobación...");
+    const tx = await usdt.approve(DONATION_ADDRESS, amountWei);
+    await tx.wait();
+    showStatus("Aprobación de USDT confirmada en la blockchain.");
+  } catch (err) {
+    console.error(err);
+    showError("Error al aprobar USDT. Revisa MetaMask (red, saldo, gas) y vuelve a intentar.");
   }
+};
 
-  // Llamar al cargar la página
-  //cargarColaboradoresPublicos();
+// ====================== DONATE ===============================
+document.getElementById("donateBtn").onclick = async () => {
+  try {
+    if (!signer || !userAddress) {
+      showError("Primero conecta tu wallet.");
+      return;
+    }
+
+    const amountInput = document.getElementById("donationAmount").value;
+    if (!amountInput || amountInput <= 0) {
+      showError("Monto inválido. Ingresa un valor mayor a 0.");
+      return;
+    }
+
+    // Aviso explícito (confirmación del usuario en el navegador)
+    const confirmar = confirm(
+      "Esta operación es una donación sin retorno económico. ¿Deseas continuar?"
+    );
+    if (!confirmar) return;
+
+    const usdt = new ethers.Contract(USDT_ADDRESS, ERC20_ABI, signer);
+    const decimals = await usdt.decimals();
+    const amountWei = ethers.utils.parseUnits(amountInput, decimals);
+
+    const donation = new ethers.Contract(DONATION_ADDRESS, DONATION_ABI, signer);
+    showStatus("Enviando donación...");
+    const tx = await donation.donate(amountWei);
+    await tx.wait();
+
+    showStatus("Donación completada. ¡Gracias por tu apoyo!");
+    actualizarBalances();
+  } catch (err) {
+    console.error(err);
+    showError("Error al enviar la donación. Revisa MetaMask (aprobación previa, red, saldo, gas).");
+  }
+};
+
+// ====================== SEND COLLAB DATA ======================
+document.getElementById("sendCollab").onclick = async () => {
+  try {
+    const privacy = document.querySelector("input[name='privacy']:checked").value;
+
+    const payload = {
+      wallet: userAddress || "",
+      nombre: document.getElementById("collabName").value,
+      email: document.getElementById("collabEmail").value,
+      privacidad: privacy,
+      pais: document.getElementById("collabCountry").value,
+      ciudad: document.getElementById("collabCity").value,
+      edad: document.getElementById("collabAge").value,
+      comentario: document.getElementById("collabComment").value
+    };
+
+    // Envío simple (no-cors) al Apps Script
+    await fetch(GOOGLE_WEBAPP_URL, {
+      method: "POST",
+      mode: "no-cors",
+      body: JSON.stringify(payload)
+    });
+
+    showStatus("Datos enviados. ¡Gracias por colaborar!");
+  } catch (err) {
+    console.error(err);
+    showError("No se pudieron enviar tus datos. Inténtalo de nuevo más tarde.");
+  }
+};
+
+// ================= CARGAR COLABORADORES PÚBLICOS ==============
+async function cargarColaboradoresPublicos() {
+  const contenedor = document.getElementById("publicCollabList");
+  contenedor.textContent = "Cargando...";
+
+  try {
+    const res = await fetch(GOOGLE_WEBAPP_URL); // GET -> doGet
+    const data = await res.json(); // se espera un array de { nombre, pais, modo }
+
+    contenedor.innerHTML = "";
+
+    if (!data.length) {
+      contenedor.textContent = "Todavía no hay colaboradores públicos.";
+      return;
+    }
+
+    data.forEach(c => {
+      const card = document.createElement("div");
+      card.className = "collab-card";
+      card.style.padding = "8px 0";
+
+      const line = document.createElement("div");
+
+      // Texto seguro según modo de privacidad
+      let texto = c.nombre || "";
+      if (c.modo === "public_full" && c.pais) {
+        texto += " (" + c.pais + ")";
+      }
+
+      line.textContent = texto; // protección contra XSS
+      card.appendChild(line);
+      contenedor.appendChild(card);
+    });
+
+  } catch (err) {
+    contenedor.textContent = "No se pudo cargar la lista de colaboradores.";
+    console.error(err);
+  }
+}
+
+// Llamar al cargar la página
+cargarColaboradoresPublicos();
 </script>
 </body>
 </html>
