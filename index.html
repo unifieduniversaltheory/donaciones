@@ -720,6 +720,20 @@ if (data.status === "ok") {
     showError(t.sendCollabError);
   }
 };
+const collabPanel = document.getElementById("collabPanel");
+function openCollabPanel() {
+  if (!collabPanel) return;
+  collabPanel.classList.remove("collapsed");
+  collabPanel.classList.add("expanded");
+  // Scroll suave al panel
+  collabPanel.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function closeCollabPanel() {
+  if (!collabPanel) return;
+  collabPanel.classList.remove("expanded");
+  collabPanel.classList.add("collapsed");
+}
 
 
 // ================= CARGAR COLABORADORES PÚBLICOS ==============
