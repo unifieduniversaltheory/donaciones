@@ -361,14 +361,39 @@ const texts = {
     loadListError: "Failed to load the contributor list."
   }
 };
+  document.getElementById("language").onchange = applyLanguage;
+applyLanguage();
+
+function applyLanguage() {
+  const lang = document.getElementById("language").value;
+  const t = texts[lang];
+  document.getElementById("title").innerText = t.title;
+  document.getElementById("intro").innerHTML = t.intro;
+  document.getElementById("data-note").innerText = t.dataNote;
+  document.getElementById("yourAddressLabel").innerText = t.yourAddressLabel;
+  document.getElementById("yourUSDTLabel").innerText = t.yourUSDTLabel;
+  document.getElementById("yourSYMLabel").innerText = t.yourSYMLabel;
+  document.getElementById("donateTitle").innerText = t.donateTitle;
+  document.getElementById("rateNote").innerText = t.rateNote;
+  document.getElementById("connectBtn").innerText = t.connectBtn;
+  document.getElementById("approveBtn").innerText = t.approveBtn;
+  document.getElementById("donateBtn").innerText = t.donateBtn;
+};
+function getT() {
+  const lang = document.getElementById("language").value || "es";
+  return texts[lang];
+}
+
 
 // ====================== CONNECT WALLET ========================
 document.getElementById("connectBtn").onclick = async () => {
   try {
-    if (typeof window.ethereum === "undefined") {
-      showError("No se detectó ninguna wallet compatible en este navegador (por ejemplo MetaMask).");
-      return;
-    }
+ if (typeof window.ethereum === "undefined") {
+  const t = getT();
+  showError(t.statusWalletMissing);
+  return;
+}
+
 
     provider = new ethers.providers.Web3Provider(window.ethereum);
 
@@ -381,16 +406,20 @@ document.getElementById("connectBtn").onclick = async () => {
 
     // Comprobar red
     const network = await provider.getNetwork();
-    if (network.chainId !== 56) {
-      showError("Atención: esta dApp está diseñada para la red BNB Smart Chain (BSC – chainId 56). Cambia la red en MetaMask.");
-    } else {
-      showStatus("Wallet conectada correctamente en BNB Smart Chain (BSC).");
-    }
+const t = getT();
+
+if (network.chainId !== 56) {
+  showError(t.warningWrongNetwork);
+} else {
+  showStatus(t.statusWalletConnected);
+}
 
     actualizarBalances();
   } catch (err) {
     console.error(err);
-    showError("No se pudo conectar la wallet. Revisa MetaMask y vuelve a intentarlo.");
+    const t = getT();
+    showError(t.errorWalletConnect);
+   
   }
 };
 
@@ -415,7 +444,9 @@ async function actualizarBalances() {
      // ethers.utils.formatUnits(balSYM, symDec) + " UUT";
   } catch (err) {
     console.error(err);
-    showError("No se pudieron actualizar los saldos. Verifica la red y vuelve a intentarlo.");
+      const t = getT();
+    showError(t.balanceError);
+
   }
 }
 
@@ -423,28 +454,37 @@ async function actualizarBalances() {
 document.getElementById("approveBtn").onclick = async () => {
   try {
     if (!signer || !userAddress) {
-      showError("Primero conecta tu wallet.");
+          const t = getT();
+    showError(t.errorWalletConnect);
+     // showError("Primero conecta tu wallet.");
       return;
     }
 
     const amountInput = document.getElementById("donationAmount").value;
     if (!amountInput || amountInput <= 0) {
-      showError("Monto inválido. Ingresa un valor mayor a 0.");
+          const t = getT();
+    showError(t.amountInvalid);
+      //showError("Monto inválido. Ingresa un valor mayor a 0.");
       return;
     }
 
     const usdt = new ethers.Contract(USDT_ADDRESS, ERC20_ABI, signer);
     const decimals = await usdt.decimals();
     const amountWei = ethers.utils.parseUnits(amountInput, decimals);
-
-    showStatus("Enviando transacción de aprobación...");
+ const t = getT();
+    showStatus(t.approveSending);
+    //showStatus("Enviando transacción de aprobación...");
+    
     const tx = await usdt.approve(DONATION_ADDRESS, amountWei);
     await tx.wait();
-    showStatus("Aprobación de USDT confirmada en la blockchain.");
+    showStatus(t.approveConfirmed);
+//showStatus("Aprobación de USDT confirmada en la blockchain.");
 
   } catch (err) {
     console.error(err);
-    showError("Error al aprobar USDT. Revisa MetaMask (red, saldo, gas) y vuelve a intentar.");
+    const t = getT();
+    showError(t.approveError);
+   // showError("Error al aprobar USDT. Revisa MetaMask (red, saldo, gas) y vuelve a intentar.");
   }
 };
 
@@ -452,20 +492,26 @@ document.getElementById("approveBtn").onclick = async () => {
 document.getElementById("donateBtn").onclick = async () => {
   try {
     if (!signer || !userAddress) {
-      showError("Primero conecta tu wallet.");
+     const t = getT();
+    showError(t.errorWalletConnect);
+     // showError("Primero conecta tu wallet.");
       return;
     }
 
     const amountInput = document.getElementById("donationAmount").value;
     if (!amountInput || amountInput <= 0) {
-      showError("Monto inválido. Ingresa un valor mayor a 0.");
+     const t = getT();
+    showError(t.amountInvalid);
+     // showError("Monto inválido. Ingresa un valor mayor a 0.");
       return;
     }
 
     // Aviso explícito (confirmación del usuario en el navegador)
+    const t = getT();
     const confirmar = confirm(
-      "Esta operación es una donación sin retorno económico. ¿Deseas continuar?"
-    );
+    t.donateConfirm
+         );
+         // "Esta operación es una donación sin retorno económico. ¿Deseas continuar?"
     if (!confirmar) return;
 
     const usdt = new ethers.Contract(USDT_ADDRESS, ERC20_ABI, signer);
@@ -473,17 +519,23 @@ document.getElementById("donateBtn").onclick = async () => {
     const amountWei = ethers.utils.parseUnits(amountInput, decimals);
     ultimoMontoUSDT = amountInput ;
     const donation = new ethers.Contract(DONATION_ADDRESS, DONATION_ABI, signer);
-    showStatus("Enviando donación...");
+    const t = getT();
+ 
+    showStatus(t.donateSending);
+   //showStatus("Enviando donación...");
     const tx = await donation.donate(amountWei);
     ultimoTxHash = tx.hash; 
     await tx.wait();
    
-    showStatus("Donación completada. ¡Gracias por tu apoyo!");
-    actualizarBalances();
+    showStatus(t.donateDone);
+   //    showStatus("Donación completada. ¡Gracias por tu apoyo!");
+ actualizarBalances();
     openCollabPanel();
   } catch (err) {
     console.error(err);
-    showError("Error al enviar la donación. Revisa MetaMask (aprobación previa, red, saldo, gas).");
+     const t = getT();
+    showError(t.approveError);
+    //showError("Error al enviar la donación. Revisa MetaMask (aprobación previa, red, saldo, gas).");
   }
 };
 
@@ -515,7 +567,9 @@ document.getElementById("sendCollab").onclick = async () => {
 
    const data = await resp.json();
 if (data.status === "ok") {
-  showStatus("Datos enviados. ¡Gracias por colaborar!");
+ const t = getT();
+    showStatus(t.sendCollabOk)
+  //showStatus("Datos enviados. ¡Gracias por colaborar!");
 
   // Opcional: limpiar campos
   document.getElementById("collabName").value = "";
@@ -528,7 +582,9 @@ if (data.status === "ok") {
   // Cerramos el panel cuando todo salió bien
   closeCollabPanel();
 } else {
-  showError("Error guardando en la hoja: " + (data.message || "desconocido"));
+ const t = getT();
+    showError(t.sendCollabError);
+  //showError("Error guardando en la hoja: " + (data.message || "desconocido"));
 }
 
 };
@@ -537,7 +593,9 @@ if (data.status === "ok") {
 // ================= CARGAR COLABORADORES PÚBLICOS ==============
 async function cargarColaboradoresPublicos() {
   const contenedor = document.getElementById("publicCollabList");
-  contenedor.textContent = "Cargando...";
+      const t = getT();
+      contenedor.textContent =  t.loadListLoading
+ // contenedor.textContent = "Cargando...";
 
   try {
 const res = await fetch(GOOGLE_WEBAPP_URL);
@@ -546,7 +604,9 @@ const data = await res.json();
     contenedor.innerHTML = "";
 
     if (!data.length) {
-      contenedor.textContent = "Todavía no hay colaboradores públicos.";
+    const t = getT();
+      contenedor.textContent =  t.loadListEmpty
+      //"Todavía no hay colaboradores públicos.";
       return;
     }
 
@@ -569,7 +629,9 @@ const data = await res.json();
     });
 
   } catch (err) {
-    contenedor.textContent = "No se pudo cargar la lista de colaboradores.";
+   const t = getT();
+    contenedor.textContent = t.loadListError
+    //"No se pudo cargar la lista de colaboradores.";
     console.error(err);
   }
 }
