@@ -409,7 +409,7 @@ document.getElementById("sendCollab").onclick = async () => {
       txHash: ultimoTxHash || "",     // ← definilo cuando confirmás donate()
       userAgent:  navigator.userAgent || ""
     };
- // 🟦 Usamos URLSearchParams para evitar CORS
+ //  Usamos URLSearchParams para evitar CORS
     const formData = new URLSearchParams();
     for (const key in payload) {
       formData.append(key, payload[key]);
@@ -431,12 +431,7 @@ document.getElementById("sendCollab").onclick = async () => {
     showError("No se pudieron enviar tus datos. Inténtalo de nuevo más tarde.");
   }
 };
-    showStatus("Datos enviados. ¡Gracias por colaborar!");
-  } catch (err) {
-    console.error(err);
-    showError("No se pudieron enviar tus datos. Inténtalo de nuevo más tarde.");
-  }
-};
+
 
 // ================= CARGAR COLABORADORES PÚBLICOS ==============
 async function cargarColaboradoresPublicos() {
