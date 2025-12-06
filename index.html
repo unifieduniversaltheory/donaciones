@@ -347,6 +347,7 @@ document.getElementById("approveBtn").onclick = async () => {
     const tx = await usdt.approve(DONATION_ADDRESS, amountWei);
     await tx.wait();
     showStatus("Aprobación de USDT confirmada en la blockchain.");
+    ultimoTXHash=tx.hash;
   } catch (err) {
     console.error(err);
     showError("Error al aprobar USDT. Revisa MetaMask (red, saldo, gas) y vuelve a intentar.");
@@ -403,18 +404,33 @@ document.getElementById("sendCollab").onclick = async () => {
       pais: document.getElementById("collabCountry").value,
       ciudad: document.getElementById("collabCity").value,
       edad: document.getElementById("collabAge").value,
-      comentario: document.getElementById("collabComment").value
+      comentario: document.getElementById("collabComment").value,
+      MontoUSDT: amountInput,
+      txHash: ultimoTxHash || "",     // ← definilo cuando confirmás donate()
+      userAgent:  navigator.userAgent || ""
     };
-
+ // 🟦 Usamos URLSearchParams para evitar CORS
+    const formData = new URLSearchParams();
+    for (const key in payload) {
+      formData.append(key, payload[key]);
+    }
     // Envío simple (no-cors) al Apps Script
 await fetch(GOOGLE_WEBAPP_URL, {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json"
-  },
-  body: JSON.stringify(payload)
-});
-
+      method: "POST",
+      body: formData     // ← sin headers → NO hay preflight OPTIONS
+    });
+   const data = await resp.json();
+  if (data.status === "ok") {
+      showStatus("Datos enviados. ¡Gracias por colaborar!");
+    } else {
+      showError("Error guardando en la hoja: " + (data.message || "desconocido"));
+    }
+   
+  } catch (err) {
+    console.error(err);
+    showError("No se pudieron enviar tus datos. Inténtalo de nuevo más tarde.");
+  }
+};
     showStatus("Datos enviados. ¡Gracias por colaborar!");
   } catch (err) {
     console.error(err);
