@@ -408,7 +408,7 @@ document.getElementById("sendCollab").onclick = async () => {
       ciudad: document.getElementById("collabCity").value,
       edad: document.getElementById("collabAge").value,
       comentario: document.getElementById("collabComment").value,
-      MontoUSDT: amountUSDT,
+      montoUSDT: ultimoMontoUSDT,
       txHash: ultimoTxHash || "",     // ← definilo cuando confirmás donate()
       userAgent:  navigator.userAgent || ""
     };
