@@ -77,6 +77,23 @@
     margin-top: 10px;
     display: none;
   }
+  #collabPanel {
+  transition: max-height 0.4s ease, opacity 0.4s ease;
+  overflow: hidden;
+}
+
+#collabPanel.collapsed {
+  max-height: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+#collabPanel.expanded {
+  max-height: 1000px; /* algo grande para que entre todo */
+  opacity: 1;
+  pointer-events: auto;
+}
+
 </style>
 </head>
 <body>
@@ -134,27 +151,32 @@
 <input type="number" id="donationAmount" placeholder="Monto en USDT (ej: 1.5)" />
 <button id="approveBtn">Aprobar USDT</button>
 <button id="donateBtn">Donar</button>
-
+<div id="statusBottom" class="success"></div>
+<div id="errorMsgBottom" class="error"></div>
 <p class="note" id="rateNote">
   Recibirás <strong>1 token UUT simbólico por cada 1 USDT donado</strong>.
   Este token es únicamente un reconocimiento simbólico en la red y <strong>no representa ni garantiza valor financiero, derechos sobre el proyecto ni participación en beneficios</strong>.
 </p>
 
 <hr>
-<h3 id="collabTitle">Colaboradores</h3>
-<p id="collabText">Si deseas ser incluido en la lista pública de colaboradores, ingresa tus datos. Tú eliges el nivel de privacidad.</p>
 
-<label><input type="radio" name="privacy" value="public_full" checked> Público (nombre y país)</label><br>
-<label><input type="radio" name="privacy" value="public_name"> Público (solo nombre)</label><br>
-<label><input type="radio" name="privacy" value="private"> Privado (no mostrar)</label><br><br>
+<div id="collabPanel" class="collapsed">
+  <h3 id="collabTitle">Colaboradores</h3>
+  <p id="collabText">Si deseas ser incluido en la lista pública de colaboradores, ingresa tus datos. Tú eliges el nivel de privacidad.</p>
 
-<input type="text" id="collabName" placeholder="Tu nombre" />
-<input type="text" id="collabCountry" placeholder="País (opcional)" />
-<input type="text" id="collabCity" placeholder="Ciudad (opcional)" />
-<input type="number" id="collabAge" placeholder="Edad (opcional)" />
-<textarea id="collabComment" placeholder="Comentario (opcional)" style="width:100%;height:80px;margin-top:10px;"></textarea>
-<input type="email" id="collabEmail" placeholder="Correo (solo si deseas recibir una respuesta)" />
-<button id="sendCollab">Enviar datos</button>
+  <label><input type="radio" name="privacy" value="public_full" checked> Público (nombre y país)</label><br>
+  <label><input type="radio" name="privacy" value="public_name"> Público (solo nombre)</label><br>
+  <label><input type="radio" name="privacy" value="private"> Privado (no mostrar)</label><br><br>
+
+  <input type="text" id="collabName" name="collabName" autocomplete="name" placeholder="Tu nombre" />
+  <input type="text" id="collabCountry" placeholder="País (opcional)" autocomplete="country-name" />
+  <input type="text" id="collabCity" placeholder="Ciudad (opcional)" autocomplete="address-level2" />
+  <input type="number" id="collabAge" placeholder="Edad (opcional)" />
+  <textarea id="collabComment" placeholder="Comentario (opcional)" style="width:100%;height:80px;margin-top:10px;"></textarea>
+  <input type="email" id="collabEmail" name="collabEmail" autocomplete="email" placeholder="Correo (solo si deseas recibir una respuesta)" />
+  <button id="sendCollab">Enviar datos</button>
+</div>
+
 
 <hr>
 <h3 id="howToImportTitle">¿Cómo ver tu token UUT?</h3>
@@ -204,18 +226,46 @@ let ultimoMontoUSDT = "";
 const statusBox = document.getElementById("status");
 const errorBox  = document.getElementById("errorMsg");
 
+const statusBox = document.getElementById("status");
+const errorBox  = document.getElementById("errorMsg");
+
 function showStatus(msg) {
+  // Arriba
   statusBox.innerText = msg;
   statusBox.style.display = "block";
   errorBox.style.display = "none";
+
+  // Abajo
+  const b  = document.getElementById("statusBottom");
+  const eb = document.getElementById("errorMsgBottom");
+  if (b && eb) {
+    b.innerText = msg;
+    b.style.display = "block";
+    eb.style.display = "none";
+
+    // Scroll suave al bloque inferior de mensajes
+    b.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
 }
 
 function showError(msg) {
+  // Arriba
   errorBox.innerText = msg;
   errorBox.style.display = "block";
   statusBox.style.display = "none";
-}
 
+  // Abajo
+  const b  = document.getElementById("statusBottom");
+  const eb = document.getElementById("errorMsgBottom");
+  if (b && eb) {
+    eb.innerText = msg;
+    eb.style.display = "block";
+    b.style.display = "none";
+
+    // Scroll suave al bloque inferior de mensajes
+    eb.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+}
 // ====================== MULTI-LANGUAGE ========================
 const texts = {
   es: {
@@ -388,6 +438,7 @@ document.getElementById("donateBtn").onclick = async () => {
    
     showStatus("Donación completada. ¡Gracias por tu apoyo!");
     actualizarBalances();
+    openCollabPanel();
   } catch (err) {
     console.error(err);
     showError("Error al enviar la donación. Revisa MetaMask (aprobación previa, red, saldo, gas).");
@@ -412,27 +463,32 @@ document.getElementById("sendCollab").onclick = async () => {
       txHash: ultimoTxHash || "",     // ← definilo cuando confirmás donate()
       userAgent:  navigator.userAgent || ""
     };
- //  Usamos URLSearchParams para evitar CORS
-    const formData = new URLSearchParams();
-    for (const key in payload) {
-      formData.append(key, payload[key]);
-    }
-    // Envío simple (no-cors) al Apps Script
- const resp = await fetch(GOOGLE_WEBAPP_URL, {
+  const resp = await fetch(GOOGLE_WEBAPP_URL, {
       method: "POST",
-      body: formData
+      headers: {
+        "Content-Type": "application/json"   // 👈 CLAVE
+      },
+      body: JSON.stringify(payload)          // 👈 Enviamos JSON real
     });
+
    const data = await resp.json();
-  if (data.status === "ok") {
-      showStatus("Datos enviados. ¡Gracias por colaborar!");
-    } else {
-      showError("Error guardando en la hoja: " + (data.message || "desconocido"));
-    }
-   
-  } catch (err) {
-    console.error(err);
-    showError("No se pudieron enviar tus datos. Inténtalo de nuevo más tarde.");
-  }
+if (data.status === "ok") {
+  showStatus("Datos enviados. ¡Gracias por colaborar!");
+
+  // Opcional: limpiar campos
+  document.getElementById("collabName").value = "";
+  document.getElementById("collabCountry").value = "";
+  document.getElementById("collabCity").value = "";
+  document.getElementById("collabAge").value = "";
+  document.getElementById("collabComment").value = "";
+  document.getElementById("collabEmail").value = "";
+
+  // Cerramos el panel cuando todo salió bien
+  closeCollabPanel();
+} else {
+  showError("Error guardando en la hoja: " + (data.message || "desconocido"));
+}
+
 };
 
 
