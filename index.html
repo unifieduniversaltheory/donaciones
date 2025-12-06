@@ -687,9 +687,9 @@ document.getElementById("sendCollab").onclick = async () => {
     };
   const resp = await fetch(GOOGLE_WEBAPP_URL, {
       method: "POST",
-      //headers: {
-      //  "Content-Type": "application/json"   // 👈 CLAVE
-      //},
+      headers: {
+        "Content-Type": "application/json"   // 👈 CLAVE
+      },
       body: JSON.stringify(payload)          // 👈 Enviamos JSON real
     });
 
