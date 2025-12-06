@@ -197,6 +197,8 @@ const DONATION_ABI = [
 ];
 
 let provider, signer, userAddress;
+let ultimoTxHash = "";
+let ultimoMontoUSDT = "";
 
 // Helpers de UI
 const statusBox = document.getElementById("status");
@@ -347,7 +349,7 @@ document.getElementById("approveBtn").onclick = async () => {
     const tx = await usdt.approve(DONATION_ADDRESS, amountWei);
     await tx.wait();
     showStatus("Aprobación de USDT confirmada en la blockchain.");
-    ultimoTXHash=tx.hash;
+
   } catch (err) {
     console.error(err);
     showError("Error al aprobar USDT. Revisa MetaMask (red, saldo, gas) y vuelve a intentar.");
@@ -377,12 +379,13 @@ document.getElementById("donateBtn").onclick = async () => {
     const usdt = new ethers.Contract(USDT_ADDRESS, ERC20_ABI, signer);
     const decimals = await usdt.decimals();
     const amountWei = ethers.utils.parseUnits(amountInput, decimals);
-
+    ultimoMontoUSDT = amountInput;
     const donation = new ethers.Contract(DONATION_ADDRESS, DONATION_ABI, signer);
     showStatus("Enviando donación...");
     const tx = await donation.donate(amountWei);
+    ultimoTxHash = tx.hash; 
     await tx.wait();
-
+   
     showStatus("Donación completada. ¡Gracias por tu apoyo!");
     actualizarBalances();
   } catch (err) {
