@@ -581,11 +581,15 @@ if (data.status === "ok") {
 
   // Cerramos el panel cuando todo salió bien
   closeCollabPanel();
-} else {
- const t = getT();
+ } else {
+      const t = getT();
+      showError(t.sendCollabError);
+    }
+
+  } catch (err) {
+    console.error(err);
+    const t = getT();
     showError(t.sendCollabError);
-  //showError("Error guardando en la hoja: " + (data.message || "desconocido"));
-}
   }
 };
 
