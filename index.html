@@ -415,9 +415,9 @@ document.getElementById("sendCollab").onclick = async () => {
       formData.append(key, payload[key]);
     }
     // Envío simple (no-cors) al Apps Script
-await fetch(GOOGLE_WEBAPP_URL, {
+ const resp = await fetch(GOOGLE_WEBAPP_URL, {
       method: "POST",
-      body: formData     // ← sin headers → NO hay preflight OPTIONS
+      body: formData
     });
    const data = await resp.json();
   if (data.status === "ok") {
