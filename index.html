@@ -708,6 +708,7 @@ if (data.status === "ok") {
 
   // Cerramos el panel cuando todo salió bien
   closeCollabPanel();
+  cargarColaboradoresPublicos();
  } else {
       const t = getT();
       showError(t.sendCollabError);
