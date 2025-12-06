@@ -121,8 +121,8 @@
 <h3 id="yourUSDTLabel">Saldo USDT:</h3>
 <div id="userUSDT">—</div>
 
-<h3 id="yourSYMLabel">Saldo Token UUT (simbólico):</h3>
-<div id="userSYM">—</div>
+<h3 id="yourSYMLabel">Token UUT (simbólico):</h3>
+<!-- <div id="userSYM">—</div>-->
 
 <hr>
 <h3 id="donateTitle">Realizar donación</h3>
@@ -317,8 +317,8 @@ async function actualizarBalances() {
     document.getElementById("userUSDT").innerText =
       ethers.utils.formatUnits(balUSDT, usdtDec) + " USDT";
 
-    document.getElementById("userSYM").innerText =
-      ethers.utils.formatUnits(balSYM, symDec) + " UUT";
+   //document.getElementById("userSYM").innerText =
+     // ethers.utils.formatUnits(balSYM, symDec) + " UUT";
   } catch (err) {
     console.error(err);
     showError("No se pudieron actualizar los saldos. Verifica la red y vuelve a intentarlo.");
