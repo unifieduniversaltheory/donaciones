@@ -145,7 +145,7 @@
 <h3 id="donateTitle">Realizar donación</h3>
 
 <p class="note" id="donateWarning">
-  Antes de donar, asegúrate de estar conectado a la red <strong>BNB Smart Chain (BSC)</strong> en MetaMask y de comprender que esta operación es una donación sin retorno económico.
+  Antes de donar, asegúrate de estar conectado a la red <strong>BNB Smart Chain (BSC)</strong> en tu Billetera y de comprender que esta operación es una donación sin retorno económico.
 </p>
 
 <input type="number" id="donationAmount" placeholder="Monto en USDT (ej: 1.5)" />
@@ -181,7 +181,7 @@
 <hr>
 <h3 id="howToImportTitle">¿Cómo ver tu token UUT?</h3>
 <p id="howToImportText">
-  Si no ves tus tokens luego de donar, abre MetaMask → "Import Tokens" → pega la siguiente dirección:<br>
+  Si no ves tus tokens luego de donar, abre tu billetera → "Import Tokens" → pega la siguiente dirección:<br>
   <strong>0xbEf018e8d5c4b89F84023ad735aA261bb10bD2a3</strong><br>
   El token aparecerá automáticamente con el símbolo <strong>UUT</strong>.
 </p>
@@ -226,9 +226,6 @@ let ultimoMontoUSDT = "";
 const statusBox = document.getElementById("status");
 const errorBox  = document.getElementById("errorMsg");
 
-const statusBox = document.getElementById("status");
-const errorBox  = document.getElementById("errorMsg");
-
 function showStatus(msg) {
   // Arriba
   statusBox.innerText = msg;
@@ -269,6 +266,7 @@ function showError(msg) {
 // ====================== MULTI-LANGUAGE ========================
 const texts = {
   es: {
+    // Títulos y textos estáticos
     title: "Donaciones – Proyecto de Investigación",
     intro: "Este formulario permite realizar una <strong>donación voluntaria</strong> para apoyar este proyecto científico independiente.<br><br><strong>IMPORTANTE:</strong> Toda contribución es una donación pura y desinteresada. No existe, ni existirá, retorno económico, participación en beneficios, intereses, dividendos, promesa de revalorización, ni ningún tipo de rendimiento financiero. Esta página <strong>no</strong> ofrece ni representa un instrumento de inversión.",
     dataNote: "Si lo deseas, puedes dejar tus datos para ser mencionado en la lista oficial de colaboradores del proyecto.",
@@ -281,9 +279,42 @@ const texts = {
     approveBtn: "Aprobar USDT",
     donateBtn: "Donar",
     collabSent: "Datos enviados correctamente.",
-    donateWarning: "Antes de donar, asegúrate de estar conectado a la red BNB Smart Chain (BSC) en MetaMask y de comprender que esta operación es una donación sin retorno económico."
+    donateWarning: "Antes de donar, asegúrate de estar conectado a la red BNB Smart Chain (BSC) en MetaMask y de comprender que esta operación es una donación sin retorno económico.",
+
+    // Mensajes runtime – conexión de wallet
+    statusWalletMissing: "No se detectó ninguna wallet compatible. Instala o habilita MetaMask (u otra wallet compatible).",
+    statusWalletConnected: "Wallet conectada correctamente en BNB Smart Chain (BSC).",
+    errorWalletConnect: "No se pudo conectar la wallet. Revisa tu wallet y vuelve a intentarlo.",
+    warningWrongNetwork: "Atención: esta dApp está diseñada para la red BNB Smart Chain (BSC – chainId 56). Cambia la red en tu wallet.",
+
+    // Mensajes runtime – balances
+    balanceError: "No se pudieron actualizar los saldos. Verifica la red y vuelve a intentarlo.",
+
+    // Mensajes runtime – aprobación USDT
+    amountInvalid: "Monto inválido. Ingresa un valor mayor a 0.",
+    approveSending: "Enviando transacción de aprobación...",
+    approveConfirmed: "Aprobación de USDT confirmada en la blockchain.",
+    approveError: "Error al aprobar USDT. Revisa tu wallet (red, saldo, gas) y vuelve a intentar.",
+
+    // Mensajes runtime – donación
+    donateConfirm: "Esta operación es una donación sin retorno económico. ¿Deseas continuar?",
+    donateSending: "Enviando donación...",
+    donateDone: "Donación completada. ¡Gracias por tu apoyo!",
+    donateError: "Error al enviar la donación. Revisa tu wallet (aprobación previa, red, saldo, gas).",
+
+    // Mensajes runtime – datos de colaborador
+    sendCollabOk: "Datos enviados. ¡Gracias por colaborar!",
+    sendCollabError: "No se pudieron enviar tus datos. Inténtalo de nuevo más tarde.",
+    sendCollabSheetErrorPrefix: "Error guardando en la hoja: ",
+
+    // Mensajes runtime – lista pública de colaboradores
+    loadListLoading: "Cargando...",
+    loadListEmpty: "Todavía no hay colaboradores públicos.",
+    loadListError: "No se pudo cargar la lista de colaboradores."
   },
+
   en: {
+    // Static UI texts
     title: "Donations – Research Project",
     intro: "This form allows you to make a <strong>voluntary donation</strong> to support this independent scientific project.<br><br><strong>IMPORTANT:</strong> Every contribution is a pure and selfless donation. There is and will be no economic return, profit sharing, interest, dividends, promise of appreciation, or any kind of financial yield. This page does <strong>not</strong> offer or represent an investment instrument.",
     dataNote: "If you wish, you may leave your information to be mentioned in the official list of project contributors.",
@@ -296,35 +327,46 @@ const texts = {
     approveBtn: "Approve USDT",
     donateBtn: "Donate",
     collabSent: "Data submitted successfully.",
-    donateWarning: "Before donating, make sure you are connected to the BNB Smart Chain (BSC) network in MetaMask and that you understand this operation is a donation with no financial return."
+    donateWarning: "Before donating, make sure you are connected to the BNB Smart Chain (BSC) network in your wallet and that you understand this operation is a donation with no financial return.",
+
+    // Runtime messages – wallet connection
+    statusWalletMissing: "No compatible wallet detected. Please install or enable MetaMask (or another EIP-1193 compatible wallet).",
+    statusWalletConnected: "Wallet successfully connected on BNB Smart Chain (BSC).",
+    errorWalletConnect: "Failed to connect the wallet. Check your wallet and try again.",
+    warningWrongNetwork: "Warning: this dApp is designed for BNB Smart Chain (BSC – chainId 56). Please switch your wallet network.",
+
+    // Runtime – balances
+    balanceError: "Failed to update balances. Verify your network and try again.",
+
+    // Runtime – USDT approval
+    amountInvalid: "Invalid amount. Enter a value greater than 0.",
+    approveSending: "Sending approval transaction...",
+    approveConfirmed: "USDT approval confirmed on-chain.",
+    approveError: "Error while approving USDT. Check your wallet (network, balance, gas) and try again.",
+
+    // Runtime – donation
+    donateConfirm: "This operation is a donation with no financial return. Do you want to continue?",
+    donateSending: "Sending donation...",
+    donateDone: "Donation completed. Thank you for your support!",
+    donateError: "Error sending the donation. Check your wallet (approval, network, balance, gas).",
+
+    // Runtime – collaborator data
+    sendCollabOk: "Data submitted. Thank you for collaborating!",
+    sendCollabError: "Could not submit your data. Please try again later.",
+    sendCollabSheetErrorPrefix: "Error saving data: ",
+
+    // Runtime – public collaborators list
+    loadListLoading: "Loading...",
+    loadListEmpty: "There are no public contributors yet.",
+    loadListError: "Failed to load the contributor list."
   }
 };
-
-document.getElementById("language").onchange = applyLanguage;
-applyLanguage();
-
-function applyLanguage() {
-  const lang = document.getElementById("language").value;
-  const t = texts[lang];
-  document.getElementById("title").innerText = t.title;
-  document.getElementById("intro").innerHTML = t.intro;
-  document.getElementById("data-note").innerText = t.dataNote;
-  document.getElementById("yourAddressLabel").innerText = t.yourAddressLabel;
-  document.getElementById("yourUSDTLabel").innerText = t.yourUSDTLabel;
-  document.getElementById("yourSYMLabel").innerText = t.yourSYMLabel;
-  document.getElementById("donateTitle").innerText = t.donateTitle;
-  document.getElementById("rateNote").innerText = t.rateNote;
-  document.getElementById("connectBtn").innerText = t.connectBtn;
-  document.getElementById("approveBtn").innerText = t.approveBtn;
-  document.getElementById("donateBtn").innerText = t.donateBtn;
-  document.getElementById("donateWarning").innerText = t.donateWarning;
-}
 
 // ====================== CONNECT WALLET ========================
 document.getElementById("connectBtn").onclick = async () => {
   try {
     if (typeof window.ethereum === "undefined") {
-      showError("No se detectó MetaMask. Instálala o habilítala en este navegador.");
+      showError("No se detectó ninguna wallet compatible en este navegador (por ejemplo MetaMask).");
       return;
     }
 
