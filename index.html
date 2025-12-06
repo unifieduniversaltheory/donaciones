@@ -685,13 +685,12 @@ document.getElementById("sendCollab").onclick = async () => {
       txHash: ultimoTxHash || "",     // ← definilo cuando confirmás donate()
       userAgent:  navigator.userAgent || ""
     };
-  const resp = await fetch(GOOGLE_WEBAPP_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"   // 👈 CLAVE
-      },
-      body: JSON.stringify(payload)          // 👈 Enviamos JSON real
-    });
+const resp = await fetch(GOOGLE_WEBAPP_URL, {
+  method: "POST",
+  // sin headers personalizados
+  body: JSON.stringify(payload)
+});
+
 
    const data = await resp.json();
 if (data.status === "ok") {
