@@ -519,7 +519,7 @@ document.getElementById("donateBtn").onclick = async () => {
     const amountWei = ethers.utils.parseUnits(amountInput, decimals);
     ultimoMontoUSDT = amountInput ;
     const donation = new ethers.Contract(DONATION_ADDRESS, DONATION_ABI, signer);
-    const t = getT();
+ 
  
     showStatus(t.donateSending);
    //showStatus("Enviando donación...");
